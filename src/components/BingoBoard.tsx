@@ -7,18 +7,34 @@ interface BingoBoardProps {
 const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
     const totalCells  = rows ? rows * rows : 0;
     const [cellValues, setCellValues] = React.useState<string[]>(Array(totalCells).fill(""));
-    
-    function handleInputChange(index: number, value: any): void {
-        console.log(index, value);
+
+    const handleInputChange = (index: number, value: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newCellValues = [...cellValues];
-        newCellValues[index] = value;
-        setCellValues(newCellValues);         
+        newCellValues[index] = event.target.value;
+        setCellValues(newCellValues);
     }
 
+    const onSubmit = () => {
+        console.log(cellValues);
+        // if the cellValues is not filled completely, alert the user
+        if (cellValues.includes("")){
+            alert("Please fill all the cells");
+        }
+        // if the cellValues has repetitions, alert the user
+        else if (new Set(cellValues).size !== cellValues.length){
+            alert("Please fill unique values");
+        }
+        // if the cellValues contains values less than 1 or greater than rows*rows, alert the user
+        else if (cellValues.some((value) => Number(value) < 1 || Number(value) > totalCells)){
+            alert(`Please fill values between 1 and ${totalCells}`);
+        }
+    }
+    
+
     return (
-        <div>
+        <>
             <h2>Bingo Board</h2>
-            <p>Number of rows: {rows}</p>
+            <p>Fill the board with values from 1 to {totalCells}</p>
             <div className="grid-container" style = {{gridTemplateColumns: `repeat(${rows}, 0fr)`}}>
                 {cellValues.map((cellValue, index) => (
                     <input
@@ -26,11 +42,17 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
                     className="grid-item"
                     type="text"
                     value={cellValue}
-                    onChange={(event) => handleInputChange(index, event.target.value)}
+                    onChange = {handleInputChange(index, cellValue)}
                     />
                 ))}
-        </div>
-        </div>
+            </div>
+
+            <button onClick={() => setCellValues(Array(totalCells).fill(""))}>Clear Board</button>
+            
+            <button onClick={onSubmit}>
+                Play
+            </button>
+        </>
     );
 }
 
