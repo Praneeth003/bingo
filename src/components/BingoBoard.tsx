@@ -8,7 +8,7 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
     const totalCells  = rows ? rows * rows : 0;
     const [cellValues, setCellValues] = React.useState<string[]>(Array(totalCells).fill(""));
 
-    const handleInputChange = (index: number, value: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newCellValues = [...cellValues];
         newCellValues[index] = event.target.value;
         setCellValues(newCellValues);
@@ -30,6 +30,15 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
         }
     }
     
+    const autoGenereateBoard = () => {
+        const tempArray = [];
+        for (let i = 1; i <= totalCells; i++){
+            tempArray.push(i.toString());
+        }
+        const shuffledArray = tempArray.sort(() => Math.random() - 0.5);
+        setCellValues(shuffledArray);
+        console.log(shuffledArray);
+    }
 
     return (
         <>
@@ -42,13 +51,16 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
                     className="grid-item"
                     type="text"
                     value={cellValue}
-                    onChange = {handleInputChange(index, cellValue)}
+                    onChange = {handleInputChange(index)}
                     />
                 ))}
             </div>
 
             <button onClick={() => setCellValues(Array(totalCells).fill(""))}>Clear Board</button>
-            
+            <button onClick = {autoGenereateBoard}
+            >
+                Autogenerate Board
+            </button>
             <button onClick={onSubmit}>
                 Play
             </button>
