@@ -1,12 +1,21 @@
 import React from "react";
+import Board from "./Board";
+import PlayPage from "../pages/PlayPage";
+import { useNavigate } from "react-router-dom";
+
 
 interface BingoBoardProps {
     rows ?: number;
+    cellValues ?: string[];
 }
 
-const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
+
+const BoardSetup: React.FC<BingoBoardProps> = (props) => {
+    const rows = props.rows;
     const totalCells  = rows ? rows * rows : 0;
     const [cellValues, setCellValues] = React.useState<string[]>(Array(totalCells).fill(""));
+    const navigate = useNavigate();
+
 
     const handleInputChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newCellValues = [...cellValues];
@@ -28,6 +37,9 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
         else if (cellValues.some((value) => Number(value) < 1 || Number(value) > totalCells)){
             alert(`Please fill values between 1 and ${totalCells}`);
         }
+        else{
+            navigate("/play");
+        }
     }
     
     const autoGenereateBoard = () => {
@@ -44,23 +56,14 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
         <>
             <h2>Bingo Board</h2>
             <p>Fill the board with values from 1 to {totalCells}</p>
-            <div className="grid-container" style = {{gridTemplateColumns: `repeat(${rows}, 0fr)`}}>
-                {cellValues.map((cellValue, index) => (
-                    <input
-                    key={index}
-                    className="grid-item"
-                    type="text"
-                    value={cellValue}
-                    onChange = {handleInputChange(index)}
-                    />
-                ))}
-            </div>
+            
+            <Board rows = {rows} cellValues = {cellValues} onInputChange = {handleInputChange}/>
 
             <button onClick={() => setCellValues(Array(totalCells).fill(""))}>Clear Board</button>
             <button onClick = {autoGenereateBoard}
             >
                 Autogenerate Board
-            </button>
+            </button> 
             <button onClick={onSubmit}>
                 Play
             </button>
@@ -68,4 +71,4 @@ const BingoBoard: React.FC<BingoBoardProps> = ({ rows }) => {
     );
 }
 
-export default BingoBoard;
+export default BoardSetup;

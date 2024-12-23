@@ -6,7 +6,7 @@ export default function LandingPage(){
 
     function navigateToPlayPage(event: React.MouseEvent<HTMLButtonElement>): void {
         event.preventDefault();       
-        navigate("/play");
+        navigate("/setup");
     }
 
     return (
