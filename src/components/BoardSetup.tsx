@@ -1,6 +1,5 @@
 import React from "react";
 import Board from "./Board";
-import PlayPage from "../pages/PlayPage";
 import { useNavigate } from "react-router-dom";
 
 
@@ -23,7 +22,8 @@ const BoardSetup: React.FC<BingoBoardProps> = (props) => {
         setCellValues(newCellValues);
     }
 
-    const onSubmit = () => {
+    function onSubmit(event: React.MouseEvent<HTMLButtonElement>): void {
+        event.preventDefault();
         console.log(cellValues);
         // if the cellValues is not filled completely, alert the user
         if (cellValues.includes("")){
@@ -37,9 +37,7 @@ const BoardSetup: React.FC<BingoBoardProps> = (props) => {
         else if (cellValues.some((value) => Number(value) < 1 || Number(value) > totalCells)){
             alert(`Please fill values between 1 and ${totalCells}`);
         }
-        else{
-            navigate("/play");
-        }
+        navigate("/play", {state : {cellValues, rows}});        
     }
     
     const autoGenereateBoard = () => {

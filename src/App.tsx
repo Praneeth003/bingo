@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import PlayPage from "./pages/SetupPage";
+import PlayPage from "./pages/PlayPage";
 import SetupPage from "./pages/SetupPage";
 
 
