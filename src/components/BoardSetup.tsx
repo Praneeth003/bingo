@@ -58,8 +58,7 @@ const BoardSetup: React.FC<BingoBoardProps> = (props) => {
             <Board rows = {rows} cellValues = {cellValues} onInputChange = {handleInputChange}/>
 
             <button onClick={() => setCellValues(Array(totalCells).fill(""))}>Clear Board</button>
-            <button onClick = {autoGenereateBoard}
-            >
+            <button onClick = {autoGenereateBoard}>
                 Autogenerate Board
             </button> 
             <button onClick={onSubmit}>

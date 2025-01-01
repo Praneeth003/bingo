@@ -17,3 +17,7 @@ body {
   height: 50px;
   box-sizing: border-box;
 }
+
+.grid-item.marked{
+  background-color: red;
+}
