@@ -10,10 +10,18 @@ interface ComputerFileProps {
 
 
 const ComputerFile:React.FC<ComputerFileProps> = ({rows, markedCells}) => {
+    const [initialized, setInitialized] = React.useState<boolean>(false);
+
+    useEffect(() => {
+        if (!initialized){
+            console.log("Initialize Computer Player");
+            setInitialized(true);
+        }
+    }, [initialized]);
+
     useEffect(() => {
         console.log("Computer Plays");
-        console.log(rows, markedCells);
-        
+        console.log(rows, markedCells);  
     }, [markedCells]);
     return null;
 }
