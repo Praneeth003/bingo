@@ -1,6 +1,7 @@
-// This file has code related to the logic of the computer player
+// This file has code to the logic of the computer player
 import React from "react";
 import { useEffect } from "react";
+import Board from "./components/Board";
 
 interface ComputerFileProps {
     rows: number;
@@ -23,17 +24,27 @@ const ComputerFile:React.FC<ComputerFileProps> = ({rows, markedCells}) => {
 
     useEffect(() => {
         if (!initialized){
+            console.log("Computer received rows:", rows);
             console.log("Initialized Computer Player");
             setComputerBoard(generateBoard(rows));
-            setInitialized(true);
+            setInitialized(true);       
+        }
+    }, [initialized]);
+
+    // Logging the Computer Board
+    useEffect(() => {
+        console.log("Computer Board is:", computerBoard);  
+    }, [computerBoard]);
+
+
+    // Checking for the changes in the markedCells
+    useEffect(() => {
+        if (initialized){
+            console.log("Computer received markedCells:", markedCells);
             
         }
-    }, [initialized, rows]);
-
-    useEffect(() => {
-        console.log("Computer Plays");
-        console.log(rows, markedCells);  
     }, [markedCells]);
+
     return null;
 }
 

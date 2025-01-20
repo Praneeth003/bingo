@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BoardSetup from "../components/BoardSetup";
 
 const SetupPage: React.FC = () => {
-    const [row, setRow] = useState<number>();
+    const [row, setRow] = useState<number>(0);
     const [displayBoardSetup, setDisplayBoardSetup] = useState<boolean>(false);
 
     const recordInput = (event: React.ChangeEvent<HTMLInputElement>): void => {

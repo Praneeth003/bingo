@@ -11,7 +11,7 @@ const PlayPage: React.FC = () => {
     const [markedCells, setMarkedCells] = useState<string[]>([]);
 
     function onMarking(index: number, cellValue: string){
-        console.log(index, cellValue);
+        console.log("Marking from player", index, cellValue);
         setMarkedCells([...markedCells, cellValue]);
     }
 
