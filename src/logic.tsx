@@ -83,3 +83,29 @@ export const pickBestNumber = (rows: number, cells: string[], markedCells: strin
   return bestMove == "" ? unmarkedCells[0] : bestMove;
 };
 
+
+const calculateScore = (cells: string[], markedCells: string[], rows: number) => {
+    const grid = Array.from({ length: rows }, (_, i) =>
+        cells.slice(i * rows, i * rows + rows)
+    );
+    let score = 0;
+    for (const cell of cells) {
+        const index = cells.indexOf(cell);
+        const row = Math.floor(index / rows);
+        const col = index % rows;
+        const rowCompletion = grid[row].filter(c => !markedCells.includes(c)).length;
+        if (rowCompletion === 0) score += 1;
+        const colCompletion = grid.map(r => r[col]).filter(c => !markedCells.includes(c)).length;
+        if (colCompletion === 0) score += 1;
+        if (row === col) {
+            const diagCompletion = grid.filter((_, i) => !markedCells.includes(grid[i][i])).length;
+            if (diagCompletion === 0) score += 1;
+        }
+        if (row + col === rows - 1) {
+            const antiDiagCompletion = grid.filter((_, i) => !markedCells.includes(grid[i][rows - 1 - i])).length;
+            if (antiDiagCompletion === 0) score += 1;
+        }
+    }
+    return score;
+}
+
