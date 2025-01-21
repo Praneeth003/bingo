@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import Board from "../components/Board";
 import { autoGenereateBoard, pickBestNumber } from "../ComputerFile";
+import { useEffect } from "react";
 
 const PlayPage: React.FC = () => {
     const location = useLocation();
@@ -11,13 +12,19 @@ const PlayPage: React.FC = () => {
     const [markedCells, setMarkedCells] = useState<string[]>([]);
     const [displayBoard, setDisplayBoard] = useState<boolean>(false);
     const [computerCells, setComputerCells] = useState<string[]>([]);
+    const [playerTurn, setPlayerTurn] = useState<boolean>(true); 
 
-    let playerPlaysFirst: boolean = true;
 
-    function onMarking(index: number, cellValue: string){
+    function onPlayerMarking(index: number, cellValue: string){
         console.log("Marking from player", cellValue);
+        if(markedCells.includes(cellValue)){
+            alert("Cell already marked");
+            return;
+        }
+        else{
         setMarkedCells([...markedCells, cellValue]);
-        
+        setPlayerTurn(false);
+        }
     }
 
     function handleToss(event: React.MouseEvent<HTMLButtonElement>): void {
@@ -26,24 +33,29 @@ const PlayPage: React.FC = () => {
 
         const toss: boolean = Math.random() > 0.5;
         if (toss){
-            playerPlaysFirst = true;
+            setPlayerTurn(true);
             alert("Player plays first");
         }
         else{
-            playerPlaysFirst = false;
+            setPlayerTurn(false);
             alert("Computer plays first");
-            let computerMove: string | null = pickBestNumber(rows, cellValues, markedCells);
-            console.log("Computer move", computerMove);
-            setMarkedCells([...markedCells, computerMove]);
         }
         setDisplayBoard(true);
         
     }
 
+    useEffect(() => {
+        if (!playerTurn){
+            const bestCell = pickBestNumber(rows, computerCells, markedCells);
+            setMarkedCells([...markedCells, bestCell]);
+            setPlayerTurn(true);
+        }
+    }, [playerTurn]);
+
     return(
         <>
         {displayBoard ? (
-        <Board cellValues = {cellValues} rows = {rows} onMarking = {onMarking} markedCells = {markedCells}/>
+        <Board cellValues = {cellValues} rows = {rows} onMarking = {onPlayerMarking} markedCells = {markedCells}/>
         ) : (
             <button onClick={handleToss}>Toss</button>
         )}  
