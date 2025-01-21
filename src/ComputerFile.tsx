@@ -18,9 +18,17 @@ const generateBoard = (rows: number): string[] => {
     return shuffledArray;
 }
 
+
+
 const ComputerFile:React.FC<ComputerFileProps> = ({rows, markedCells}) => {
     const [initialized, setInitialized] = React.useState<boolean>(false);
     const [computerBoard, setComputerBoard] = React.useState<string[]>([]);
+    const [computerMarkedCells, setComputerMarkedCells] = React.useState<string[]>([]);
+
+    // Function to mark the cells as marked 
+    const onMarking = (cellValue: string): void => {
+        setComputerMarkedCells([...computerMarkedCells, cellValue]);
+    }
 
     useEffect(() => {
         if (!initialized){
@@ -41,7 +49,8 @@ const ComputerFile:React.FC<ComputerFileProps> = ({rows, markedCells}) => {
     useEffect(() => {
         if (initialized){
             console.log("Computer received markedCells:", markedCells);
-            
+            // Mark the cells in the computer board
+
         }
     }, [markedCells]);
 
