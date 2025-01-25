@@ -11,7 +11,7 @@ export default function LandingPage(){
 
     return (
     <div className="App">
-      <h1>Bingo!!</h1>
+      <h1 className="text-2xl font-bold underline">Bingo!!</h1>
       <p>Introduction to Bingo Game</p>
       <button onClick={navigateToPlayPage}>Start Game</button>
     </div>

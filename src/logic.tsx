@@ -80,7 +80,7 @@ export const pickBestNumber = (rows: number, cells: string[], markedCells: strin
     }
   }
 
-  return bestMove == "" ? unmarkedCells[0] : bestMove;
+  return bestMove === "" ? unmarkedCells[0] : bestMove;
 };
 
 // This function calculates the number of rows, columns and diagonals that are completely marked.
