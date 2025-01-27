@@ -21,6 +21,8 @@
     "noEmit": true
   },
   "include": [
-    "src"
+    "src",
+    "*.ts",
+    "*.tsx"
   ]
 }
